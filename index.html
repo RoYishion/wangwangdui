@@ -200,10 +200,12 @@
         const previous = dataList[dataList.length - 2];
         const avg = indexConfig.reduce((sum, item) => sum + latest[item.key], 0) / indexConfig.length;
         const strongest = indexConfig.reduce((best, item) => latest[item.key] > latest[best.key] ? item : best, indexConfig[0]);
+        const weakest = indexConfig.reduce((worst, item) => latest[item.key] < latest[worst.key] ? item : worst, indexConfig[0]);
         document.getElementById("summary").innerHTML = `
           <div class="summary-card"><div class="summary-label">最新交易日</div><div class="summary-value">${latest.date}</div><div class="summary-note">共 ${dataList.length} 个交易日</div></div>
           <div class="summary-card"><div class="summary-label">综合资金强度</div><div class="summary-value ${avg >= 0 ? "positive" : "negative"}">${avg >= 0 ? "+" : ""}${formatValue(avg)}</div><div class="summary-note">五大指数平均值</div></div>
-          <div class="summary-card"><div class="summary-label">当前最强指数</div><div class="summary-value" style="color:${strongest.color}">${strongest.name}</div><div class="summary-note">最新值 ${formatValue(latest[strongest.key])}</div></div>`;
+          <div class="summary-card"><div class="summary-label">当前最强指数</div><div class="summary-value" style="color:${strongest.color}">${strongest.name}</div><div class="summary-note">最新值 ${formatValue(latest[strongest.key])}</div></div>
+          <div class="summary-card"><div class="summary-label">当前最弱指数</div><div class="summary-value" style="color:${weakest.color}">${weakest.name}</div><div class="summary-note">最新值 ${formatValue(latest[weakest.key])}</div></div>`;
         document.getElementById("update-note").textContent = `数据更新至 ${latest.date} · 单位：倍量`;
       }
 
